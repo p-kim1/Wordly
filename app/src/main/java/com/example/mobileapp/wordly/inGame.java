@@ -12,8 +12,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
-import com.example.mobileapp.wordly.
 import javax.net.ssl.HttpsURLConnection;
 
 public class inGame extends AppCompatActivity {
@@ -144,7 +146,7 @@ public class NetworkFragment extends Fragment {
                     throw new IOException("HTTP error code: " + responseCode);
                 }
                 // Retrieve the response body as an InputStream.
-                stream = connection.getInputStrNetworkAeam();
+                stream = connection.getInputStream();
                 publishProgress(NetworkActivity.DownloadCallback.Progress.GET_INPUT_STREAM_SUCCESS, 0);
                 if (stream != null) {
                     // Converts Stream to String with max length of 500.
@@ -161,6 +163,24 @@ public class NetworkFragment extends Fragment {
             }
             return result;
         }
+
+        public String readStream(InputStream stream, int maxReadSize)
+                throws IOException, UnsupportedEncodingException {
+            Reader reader = null;
+            reader = new InputStreamReader(stream, "UTF-8");
+            char[] rawBuffer = new char[maxReadSize];
+            int readSize;
+            StringBuffer buffer = new StringBuffer();
+            while (((readSize = reader.read(rawBuffer)) != -1) && maxReadSize > 0) {
+                if (readSize > maxReadSize) {
+                    readSize = maxReadSize;
+                }
+                buffer.append(rawBuffer, 0, readSize);
+                maxReadSize -= readSize;
+            }
+            return buffer.toString();
+        }
+
 
         @Override
         protected void onPreExecute() {
@@ -228,7 +248,6 @@ public class NetworkFragment extends Fragment {
 
 public class NetworkActivity extends FragmentActivity implements NetworkActivity.DownloadCallback {
     private NetworkFragment networkFragment;
-
     private boolean downloading = false;
 
     @Override
