@@ -4,6 +4,72 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="50dp"
     tools:context=".inGame">
+
+    <TextView
+        android:id="@+id/inGame_TextView_startWord"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:gravity="center"
+        android:text="start"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/inGame_TextView_guess1"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:background="@android:color/holo_blue_light" />
+    <TextView
+        android:id="@+id/inGame_TextView_guess1"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/inGame_TextView_startWord"
+        app:layout_constraintRight_toLeftOf="@id/inGame_TextView_guess2"
+        tools:background="@android:color/holo_blue_light"/>
+    <TextView
+        android:id="@+id/inGame_TextView_guess2"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/inGame_TextView_guess1"
+        app:layout_constraintRight_toLeftOf="@id/inGame_TextView_endWord"
+        tools:background="@android:color/holo_blue_light"/>
+    <TextView
+        android:id="@+id/inGame_TextView_endWord"
+        android:layout_width="60dp"
+        android:layout_height="30dp"
+        android:gravity="center"
+        android:text="end"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/inGame_TextView_guess2"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:background="@android:color/holo_blue_light"/>
+
+    <EditText
+        android:id="@+id/inGame_EditText_userGuess"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="word"
+        app:layout_constraintTop_toBottomOf="@id/inGame_TextView_startWord"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+    <Button
+        android:id="@+id/inGame_Button_submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        app:layout_constraintTop_toBottomOf="@id/inGame_EditText_userGuess"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <Button
+        android:id="@+id/inGame_Button_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hint"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
 
 </android.support.constraint.ConstraintLayout>
