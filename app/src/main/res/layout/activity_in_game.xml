@@ -71,5 +71,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
 
+    <ImageView
+        android:id="@+id/hint_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/inGame_Button_hint"
+        app:layout_constraintLeft_toLeftOf="@id/inGame_TextView_startWord"
+        app:layout_constraintRight_toRightOf="@id/inGame_TextView_endWord"
+        app:layout_constraintTop_toBottomOf="@id/inGame_Button_submit"
+        />
+
 
 </android.support.constraint.ConstraintLayout>
