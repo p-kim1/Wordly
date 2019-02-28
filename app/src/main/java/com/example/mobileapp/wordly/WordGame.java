@@ -28,6 +28,7 @@ public class WordGame {
             Log.d(TAG, "Unable to load word graph.");
         }
         this.pathSize = pathSize;
+        newGame();
     }
 
     public void newGame() {
@@ -41,7 +42,11 @@ public class WordGame {
     }
 
     public boolean checkGuess(String guess) {
-        if (guess.equals(path.get(pathIterator).getValue())) {
+        if (isFinished()) {
+            return false;
+        }
+
+        if (guess.equals(path.get(pathIterator + 1).getValue())) {
             pathIterator++;
             return true;
         }
@@ -49,6 +54,15 @@ public class WordGame {
     }
 
     public boolean isFinished() {
-        return pathIterator == path.size();
+        return pathIterator == path.size() - 1;
+    }
+
+    public ArrayList<String> getCurrentPath() {
+        ArrayList<String> retVal = new ArrayList<>();
+        for (int i = 0; i < path.size(); i++) {
+            GraphNode<String> word = path.get(i);
+            retVal.add(word.getValue());
+        }
+        return retVal;
     }
 }
