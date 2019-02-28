@@ -9,13 +9,15 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashSet;
 
 class WordGraph extends Graph<String> {
-    private void restoreGraphFromFile(File file) {
+    public WordGraph(InputStream inputStream) {
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(file.toString()));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
             // read the file line by line
             String line = reader.readLine();
@@ -45,11 +47,10 @@ class WordGraph extends Graph<String> {
                 line = reader.readLine();
             }
         } catch (IOException ioException) {
-            // TODO: do something
         }
     }
 
-    private void loadDictionary(File file) {
+    public WordGraph(File file) {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(file.toString()));
 
@@ -83,20 +84,10 @@ class WordGraph extends Graph<String> {
             reader.close();
 
         } catch (FileNotFoundException fileNotFoundException) {
-            // TODO: do something
         } catch (IOException ioException) {
-            // TODO: do something
         }
 
         prune();
-    }
-
-    WordGraph(File file, boolean isGraphFile) {
-        if (isGraphFile) {
-            restoreGraphFromFile(file);
-        } else {
-            loadDictionary(file);
-        }
     }
 
     ArrayList<GraphNode<String>> getRandomPath(int pathSize) {
