@@ -12,8 +12,14 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -31,12 +37,47 @@ import java.util.Random;
 import javax.net.ssl.HttpsURLConnection;
 
 public class inGame extends AppCompatActivity {
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager layoutManager;
+    ArrayList<GraphNode<String>> listOfWords = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_in_game);
         //getHintImage("pizza");
+
+        recyclerView = findViewById(R.id.my_recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        //ArrayList<GraphNode<String>>[] daList = new ArrayList<GraphNode<String>>[];
+
+
+
+
+        listOfWords.add(new GraphNode<String>("test"));
+        //layoutManager = new LinearLayoutManager(this);
+
+        mAdapter = new WordAdapter(listOfWords);
+        //recyclerView.setAdapter(mAdapter);
+        recyclerView.setAdapter(mAdapter);
+        /*
+        ArrayAdapter<String> wordAdapter = new ArrayAdapter<>(this, R.layout.activity_in_game, R.id.inGame_EditText_userGuess);
+
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            for (String key : bundle.keySet()) {
+                Object value = bundle.get(key);
+                try {
+                    wordAdapter.add(value.toString());
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                    break;
+                }
+            }
+        }
+        */
     }
 
     public void getHintImage(String word)
