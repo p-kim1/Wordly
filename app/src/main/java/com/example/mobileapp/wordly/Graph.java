@@ -4,6 +4,8 @@
 //
 package com.example.mobileapp.wordly;
 
+import android.support.annotation.NonNull;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
@@ -43,6 +45,8 @@ class GraphNode<T> {
         return uniqueNeighborValues.contains(node.getValue());
     }
 
+    @NonNull
+    @Override
     public String toString() {
         return value.toString();
     }
@@ -99,6 +103,8 @@ public class Graph<T> {
         return vertices.get(randomIndex);
     }
 
+    @NonNull
+    @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         for (GraphNode<T> vertex : vertices) {

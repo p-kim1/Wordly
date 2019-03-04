@@ -84,7 +84,9 @@ class WordGraph extends Graph<String> {
             reader.close();
 
         } catch (FileNotFoundException fileNotFoundException) {
+            // TODO: do something
         } catch (IOException ioException) {
+            // TODO: do something
         }
 
         prune();
