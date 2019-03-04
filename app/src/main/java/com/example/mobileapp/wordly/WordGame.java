@@ -16,7 +16,7 @@ public class WordGame {
     private Context context;
 
     private int pathSize;
-    public WordGraph wordGraph;
+    private WordGraph wordGraph;
     private int pathIterator = 0;
     private ArrayList<GraphNode<String>> path;
 

@@ -10,9 +10,7 @@ import java.util.ArrayList;
 
 public class WordAdapter extends RecyclerView.Adapter<WordAdapter.WordViewHolder> {
 
-    //public String[] mDataset;
-
-    public ArrayList<GraphNode<String>> theListOfWords;
+    public ArrayList<String> theListOfWords;
 
     public static class WordViewHolder extends RecyclerView.ViewHolder{
         public TextView textView;
@@ -22,11 +20,8 @@ public class WordAdapter extends RecyclerView.Adapter<WordAdapter.WordViewHolder
         }
     }
 
-    //public WordAdapter(String[] myDataset){
-        //mDataset = myDataset;
-    //}
 
-    public WordAdapter(ArrayList<GraphNode<String>> myListOfWords){
+    public WordAdapter(ArrayList<String> myListOfWords){
         theListOfWords = myListOfWords;
     }
 
@@ -42,12 +37,12 @@ public class WordAdapter extends RecyclerView.Adapter<WordAdapter.WordViewHolder
     public void onBindViewHolder(WordViewHolder holder, int position){
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        //holder.textView.setText(mDataset.getVertexWithValue(position));
+        //holder.textView.setText((CharSequence) theListOfWords.get(position));
     }
 
     @Override
     public int getItemCount(){
-        //return mDataset.length;
+        //return theListOfWords.size();
         return 0;
     }
 

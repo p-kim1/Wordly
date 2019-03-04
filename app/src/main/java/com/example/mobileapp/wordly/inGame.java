@@ -40,7 +40,7 @@ public class inGame extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
-    ArrayList<GraphNode<String>> listOfWords = new ArrayList<>();
+    //ArrayList<String> listOfWords = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,33 +51,19 @@ public class inGame extends AppCompatActivity {
         recyclerView = findViewById(R.id.my_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        //ArrayList<GraphNode<String>>[] daList = new ArrayList<GraphNode<String>>[];
+
+        WordGame wordGame = new WordGame(this, 4);
+
+        ArrayList<String> listOfWords = wordGame.getCurrentPath();
 
 
-
-
-        listOfWords.add(new GraphNode<String>("test"));
+        //listOfWords.add(wordGame.getCurrentPath().toArray());
         //layoutManager = new LinearLayoutManager(this);
 
         mAdapter = new WordAdapter(listOfWords);
         //recyclerView.setAdapter(mAdapter);
         recyclerView.setAdapter(mAdapter);
-        /*
-        ArrayAdapter<String> wordAdapter = new ArrayAdapter<>(this, R.layout.activity_in_game, R.id.inGame_EditText_userGuess);
 
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            for (String key : bundle.keySet()) {
-                Object value = bundle.get(key);
-                try {
-                    wordAdapter.add(value.toString());
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
-                    break;
-                }
-            }
-        }
-        */
     }
 
     public void getHintImage(String word)
