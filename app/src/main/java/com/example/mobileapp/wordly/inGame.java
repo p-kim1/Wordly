@@ -65,10 +65,13 @@ public class inGame extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.my_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
-        //WordGame wordGame = new WordGame(this, 4);
+        WordGame wordGame = new WordGame(this);
+        wordGame.newGame(4);
+        ArrayList<String> listOfWords = wordGame.getCurrentPath();
+
+        //ArrayList<String> listOfWords
 
         /*
-        ArrayList<String> listOfWords = wordGame.getCurrentPath();
         listOfWords.add("pie");
         listOfWords.add("fly");
         listOfWords.add("try");
@@ -96,7 +99,7 @@ public class inGame extends AppCompatActivity {
         testList.add("golf");
         testList.add("gulf");
 
-
+        */
 
         //listOfWords.add(wordGame.getCurrentPath().toArray());
         //layoutManager = new LinearLayoutManager(this);
@@ -104,7 +107,7 @@ public class inGame extends AppCompatActivity {
         mAdapter = new WordAdapter(listOfWords);
         //mAdapter = new WordAdapter(testList);
         recyclerView.setAdapter(mAdapter);
-        */
+
 
 
         appContext = getApplicationContext();
