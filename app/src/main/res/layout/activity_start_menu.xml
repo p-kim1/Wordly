@@ -29,11 +29,24 @@
         app:layout_constraintLeft_toRightOf="@+id/startMenu_TextView_fromWord"
         app:layout_constraintRight_toRightOf="parent"/>
 
+    <TextView
+        android:id="@+id/startMenu_TextView_initializing"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="28dp"
+        android:gravity="center"
+        android:text="Initializing..."
+        android:textSize="18sp"
+        app:layout_constraintLeft_toRightOf="@+id/startMenu_Button_newPuzzle"
+        app:layout_constraintRight_toLeftOf="@+id/startMenu_Button_play"
+        app:layout_constraintTop_toBottomOf="@+id/startMenu_Button_newPuzzle" />
+
     <Button
         android:id="@+id/startMenu_Button_newPuzzle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New Puzzle"
+        android:onClick="newPuzzle"
         app:layout_constraintTop_toBottomOf="@+id/startMenu_TextView_fromWord"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/startMenu_Button_play"/>
@@ -43,7 +56,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Play"
+<<<<<<< HEAD
         android:onClick="playGame"
+=======
+        android:onClick="startGame"
+>>>>>>> 2926fce7e1738e8231213987d0fa1cddc7e9f55c
         app:layout_constraintTop_toBottomOf="@+id/startMenu_TextView_fromWord"
         app:layout_constraintLeft_toRightOf="@id/startMenu_Button_newPuzzle"
         app:layout_constraintRight_toRightOf="parent"/>

@@ -1,6 +1,7 @@
 package com.example.mobileapp.wordly;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
@@ -28,8 +29,12 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -56,6 +61,8 @@ public class inGame extends AppCompatActivity {
     //ArrayList<String> listOfWords = new ArrayList<>();
 
     private static Context appContext;
+    private ArrayList<String> gamePath;
+    private int nextIndex = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,10 +118,49 @@ public class inGame extends AppCompatActivity {
 
 
         appContext = getApplicationContext();
-        getHintImage("pizza");
+
 
         //WordGame game = new WordGame(appContext,4);
         //System.out.println(game.getCurrentPath());
+
+
+        TextView tvStart = (TextView) findViewById(R.id.inGame_TextView_startWord);
+        TextView tvEnd = (TextView) findViewById(R.id.inGame_TextView_endWord);
+        Intent i = getIntent();
+        gamePath = startMenu.game.getCurrentPath();
+        String startWord = startMenu.game.getCurrentWord();
+        String endWord = gamePath.get(startMenu.puzzleSize - 1);
+        tvStart.setText(startWord);
+        tvEnd.setText(endWord);
+        getHintImage(gamePath.get(nextIndex));
+    }
+
+    public void checkGuess(View v)
+    {
+        EditText etGuess = (EditText) findViewById(R.id.inGame_EditText_userGuess);
+        String guessWord = etGuess.getText().toString();
+        String nextWord  = gamePath.get(nextIndex);
+        if(startMenu.game.checkGuess(guessWord))
+        {
+            nextIndex += 1;
+            getHintImage(gamePath.get(nextIndex));
+            Toast toast = Toast.makeText(this, "Success", Toast.LENGTH_SHORT);
+            toast.show();
+            ImageView iv = (ImageView) findViewById(R.id.inGame_ImageView_hint);
+            iv.clearAnimation();
+        }
+        else
+        {
+            Toast toast = Toast.makeText(this, "Incorrect Guess", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+        etGuess.setText("");
+    }
+
+    public void getHint(View v)
+    {
+        Toast toast = Toast.makeText(this, startMenu.game.getHint().toString(), Toast.LENGTH_SHORT);
+        toast.show();
 
     }
 

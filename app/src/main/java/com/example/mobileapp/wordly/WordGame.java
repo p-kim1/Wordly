@@ -86,9 +86,9 @@ public class WordGame {
         return null;
     }
 
-    public ArrayList<String> getPath(String aWord, String bWord, int depthLimit) {
+    public ArrayList<String> getPath(String aWord, String bWord, int pathLimit) {
         ArrayList<GraphNode<String>> path = wordGraph.getPath(wordGraph.getVertexWithValue(aWord),
-                wordGraph.getVertexWithValue(bWord), depthLimit);
+                wordGraph.getVertexWithValue(bWord), pathLimit - 1);
 
         if (path == null) {
             return null;
