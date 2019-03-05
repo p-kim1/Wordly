@@ -11,16 +11,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class WordGame {
-    // android stuff
     public static final String TAG = "WordGame";
-    private Context context;
 
     private WordGraph wordGraph;
     private int pathIterator = 0;
     private ArrayList<String> path;
 
     public WordGame(Context context) {
-        this.context = context;
         try {
             wordGraph = new WordGraph(context.getAssets().open("unix_words.graph"));
         } catch (IOException ioException) {
