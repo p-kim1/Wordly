@@ -4,8 +4,15 @@
 //
 package com.example.mobileapp.wordly;
 
+import android.support.annotation.NonNull;
+
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.PriorityQueue;
+import java.util.Queue;
 import java.util.Random;
 import java.util.ArrayList;
 
@@ -43,6 +50,8 @@ class GraphNode<T> {
         return uniqueNeighborValues.contains(node.getValue());
     }
 
+    @NonNull
+    @Override
     public String toString() {
         return value.toString();
     }
@@ -99,6 +108,99 @@ public class Graph<T> {
         return vertices.get(randomIndex);
     }
 
+
+    public ArrayList<GraphNode<T>> getPath(GraphNode<T> fromNode, GraphNode<T> toNode, int depthLimit) {
+        LinkedList<GraphNode<T>> nodeQueue = new LinkedList<>();
+        HashSet<GraphNode<T>> visitedNodes = new HashSet<>();
+        HashMap<GraphNode<T>, GraphNode<T>> parentMap = new HashMap<>();
+
+        nodeQueue.push(fromNode);
+        nodeQueue.push(null);
+        parentMap.put(fromNode, null);
+        int depth = 0;
+
+        while (!nodeQueue.isEmpty()) {
+            GraphNode<T> temp = nodeQueue.removeFirst();
+
+            if (temp != null) {
+                for (GraphNode<T> neighbor : temp.getNeighbors()) {
+                    if (!visitedNodes.contains(neighbor)) {
+                        parentMap.put(neighbor, temp);
+                        nodeQueue.add(neighbor);
+
+                        if (neighbor == toNode) {
+                            return constructPath(parentMap, toNode);
+                        }
+                    }
+                }
+
+                nodeQueue.push(null);
+            } else {
+                depth++;
+                if (depth == depthLimit) {
+                    return null;
+                }
+            }
+
+            visitedNodes.add(temp);
+        }
+
+        return null;
+    }
+
+    public ArrayList<GraphNode<T>> constructPath(HashMap<GraphNode<T>, GraphNode<T>> parentMap, GraphNode<T> toNode) {
+        ArrayList<GraphNode<T>> path = new ArrayList<>();
+
+        path.add(toNode);
+        GraphNode<T> parent = parentMap.get(toNode);
+
+        while (parent != null) {
+            path.add(parent);
+            parent = parentMap.get(parent);
+        }
+
+        Collections.reverse(path);
+        return path;
+    }
+
+    public ArrayList<GraphNode<T>> getRandomPath(int pathSize) {
+        if (isEmpty()) {
+            return null;
+        }
+
+        ArrayList<GraphNode<T>> path = null;
+        while (path == null) {
+            path = getRandomPathHelper(pathSize);
+        }
+
+        return path;
+    }
+
+
+    public ArrayList<GraphNode<T>> getRandomPathHelper(int pathSize) {
+        HashSet<T> uniqueValues = new HashSet<>();
+        ArrayList<GraphNode<T>> path = new ArrayList<>();
+        GraphNode<T> vertex = getRandomVertex();
+
+        path.add(vertex);
+        uniqueValues.add(vertex.getValue());
+
+        while (path.size() < pathSize) {
+            GraphNode<T> next = vertex.getRandomNeighbor();
+            if (uniqueValues.contains(next.getValue())) {
+                return null;
+            } else {
+                uniqueValues.add(next.getValue());
+                path.add(next);
+            }
+            vertex = next;
+        }
+
+        return path;
+    }
+
+    @NonNull
+    @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         for (GraphNode<T> vertex : vertices) {
