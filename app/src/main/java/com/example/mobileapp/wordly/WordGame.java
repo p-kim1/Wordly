@@ -15,29 +15,30 @@ public class WordGame {
     public static final String TAG = "WordGame";
     private Context context;
 
-    private int pathSize;
     private WordGraph wordGraph;
     private int pathIterator = 0;
     private ArrayList<String> path;
 
-    public WordGame(Context context, int pathSize) {
+    public WordGame(Context context) {
         this.context = context;
         try {
             wordGraph = new WordGraph(context.getAssets().open("unix_words.graph"));
         } catch (IOException ioException) {
             Log.d(TAG, "Unable to load word graph.");
         }
-        this.pathSize = pathSize;
-        newGame();
     }
 
-    public void newGame() {
+    public void newGame(int pathSize) {
         path = new ArrayList<>();
         pathIterator = 0;
         ArrayList<GraphNode<String>> temp = wordGraph.getRandomPath(pathSize);
         for (int i = 0; i < temp.size(); i++) {
             path.add(temp.get(i).getValue());
         }
+    }
+
+    public int getPathSize() {
+        return path.size();
     }
 
     public String getCurrentWord() {
