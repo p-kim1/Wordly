@@ -49,20 +49,47 @@ public class inGame extends AppCompatActivity {
         //getHintImage("pizza");
 
         recyclerView = findViewById(R.id.my_recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
+        //WordGame wordGame = new WordGame(this, 4);
 
-
-        WordGame wordGame = new WordGame(this, 4);
-
+        /*
         ArrayList<String> listOfWords = wordGame.getCurrentPath();
+        listOfWords.add("pie");
+        listOfWords.add("fly");
+        listOfWords.add("try");
+        listOfWords.add("tie");
+        listOfWords.add("tye");
+        listOfWords.add("lie");
+        listOfWords.add("sky");
+        listOfWords.add("why");
+        listOfWords.add("fry");
+        listOfWords.add("rye");
+        listOfWords.add("guy");
+        listOfWords.add("die");
+        listOfWords.add("buy");
+        listOfWords.add("my");
+        listOfWords.add("sigh");
+        listOfWords.add("glide");
+        listOfWords.add("delight");
+        listOfWords.add("cry");
+        listOfWords.add("alibi");
+        listOfWords.add("bye");
+
+
+        ArrayList<String> testList = new ArrayList<>();
+        testList.add("gold");
+        testList.add("golf");
+        testList.add("gulf");
+
 
 
         //listOfWords.add(wordGame.getCurrentPath().toArray());
         //layoutManager = new LinearLayoutManager(this);
 
         mAdapter = new WordAdapter(listOfWords);
-        //recyclerView.setAdapter(mAdapter);
+        //mAdapter = new WordAdapter(testList);
         recyclerView.setAdapter(mAdapter);
+        */
 
     }
 

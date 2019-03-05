@@ -1,0 +1,4 @@
+<TextView android:id="@+id/my_text_view"
+    android:layout_width="60dp"
+    android:layout_height="30dp"
+    xmlns:android="http://schemas.android.com/apk/res/android" />
