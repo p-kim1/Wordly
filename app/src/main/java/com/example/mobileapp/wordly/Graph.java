@@ -5,6 +5,7 @@
 package com.example.mobileapp.wordly;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -111,38 +112,36 @@ public class Graph<T> {
 
     public ArrayList<GraphNode<T>> getPath(GraphNode<T> fromNode, GraphNode<T> toNode, int depthLimit) {
         LinkedList<GraphNode<T>> nodeQueue = new LinkedList<>();
+        LinkedList<Integer> depthQueue = new LinkedList<>();
         HashSet<GraphNode<T>> visitedNodes = new HashSet<>();
         HashMap<GraphNode<T>, GraphNode<T>> parentMap = new HashMap<>();
 
-        nodeQueue.push(fromNode);
-        nodeQueue.push(null);
+        nodeQueue.add(fromNode);
+        depthQueue.add(0);
         parentMap.put(fromNode, null);
-        int depth = 0;
+        visitedNodes.add(fromNode);
 
         while (!nodeQueue.isEmpty()) {
             GraphNode<T> temp = nodeQueue.removeFirst();
+            int depth = depthQueue.removeFirst();
 
-            if (temp != null) {
-                for (GraphNode<T> neighbor : temp.getNeighbors()) {
-                    if (!visitedNodes.contains(neighbor)) {
-                        parentMap.put(neighbor, temp);
-                        nodeQueue.add(neighbor);
-
-                        if (neighbor == toNode) {
-                            return constructPath(parentMap, toNode);
-                        }
-                    }
-                }
-
-                nodeQueue.push(null);
-            } else {
-                depth++;
-                if (depth == depthLimit) {
-                    return null;
-                }
+            if (depth == depthLimit) {
+                return null;
             }
 
-            visitedNodes.add(temp);
+            for (GraphNode<T> neighbor : temp.getNeighbors()) {
+                if (!visitedNodes.contains(neighbor)) {
+                    parentMap.put(neighbor, temp);
+                    nodeQueue.add(neighbor);
+                    depthQueue.add(depth + 1);
+
+                    if (neighbor == toNode) {
+                        return constructPath(parentMap, toNode);
+                    }
+
+                    visitedNodes.add(neighbor);
+                }
+            }
         }
 
         return null;
