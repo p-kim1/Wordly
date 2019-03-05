@@ -4,6 +4,8 @@
 //
 package com.example.mobileapp.wordly;
 
+import android.support.v4.util.Pair;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -12,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashSet;
 
 class WordGraph extends Graph<String> {
@@ -92,50 +95,13 @@ class WordGraph extends Graph<String> {
         prune();
     }
 
-    ArrayList<GraphNode<String>> getRandomPath(int pathSize) {
-        if (isEmpty()) {
-            return null;
-        }
-
-        ArrayList<GraphNode<String>> path = null;
-
-        while (path == null) {
-            path = getRandomPathHelper(pathSize);
-        }
-
-        return path;
-    }
-
-    private ArrayList<GraphNode<String>> getRandomPathHelper(int pathSize) {
-        HashSet<String> uniqueWords = new HashSet<>();
-        ArrayList<GraphNode<String>> path = new ArrayList<>();
-        GraphNode<String> vertex = getRandomVertex();
-
-        path.add(vertex);
-        uniqueWords.add(vertex.toString());
-
-        while (path.size() < pathSize) {
-            GraphNode<String> next = vertex.getRandomNeighbor();
-            if (uniqueWords.contains(next.toString())) {
-                return null;
-            } else {
-                uniqueWords.add(next.toString());
-                path.add(next);
-            }
-            vertex = next;
-        }
-
-        return path;
-    }
-
-    // edge function for WordGraph
-    private boolean onlyOneChange(String aWord, String bWord) {
+    private int numberOfDifferences(String aWord, String bWord) {
         if (aWord == null || bWord == null) {
-            return false;
+            return -1;
         }
 
         if (aWord.length() != bWord.length()) {
-            return false;
+            return -1;
         }
 
         int changeCount = 0;
@@ -148,7 +114,12 @@ class WordGraph extends Graph<String> {
             }
         }
 
-        return changeCount == 1;
+        return changeCount;
+    }
+
+    // edge function for WordGraph
+    private boolean onlyOneChange(String aWord, String bWord) {
+        return numberOfDifferences(aWord, bWord) == 1;
     }
 
 }

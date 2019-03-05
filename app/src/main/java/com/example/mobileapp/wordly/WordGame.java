@@ -32,6 +32,7 @@ public class WordGame {
     }
 
     public void newGame() {
+        path = new ArrayList<>();
         pathIterator = 0;
         ArrayList<GraphNode<String>> temp = wordGraph.getRandomPath(pathSize);
         for (int i = 0; i < temp.size(); i++) {
@@ -85,5 +86,21 @@ public class WordGame {
         }
 
         return null;
+    }
+
+    public ArrayList<String> getPath(String aWord, String bWord, int depthLimit) {
+        ArrayList<GraphNode<String>> path = wordGraph.getPath(wordGraph.getVertexWithValue(aWord),
+                wordGraph.getVertexWithValue(bWord), depthLimit);
+
+        if (path == null) {
+            return null;
+        }
+
+        ArrayList<String> retVal = new ArrayList<>();
+        for (GraphNode<String> node : path) {
+            retVal.add(node.getValue());
+        }
+
+        return retVal;
     }
 }
