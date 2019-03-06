@@ -1,5 +1,6 @@
 package com.example.mobileapp.wordly;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -15,12 +16,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -51,13 +57,13 @@ public class inGame extends AppCompatActivity {
     private static Context appContext;
     private ArrayList<String> gamePath;
     private int nextIndex = 1;
+    private Timer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_in_game);
         appContext = getApplicationContext();
-
         TextView tvStart = (TextView) findViewById(R.id.inGame_TextView_startWord);
         TextView tvEnd = (TextView) findViewById(R.id.inGame_TextView_endWord);
         Intent i = getIntent();
@@ -72,16 +78,24 @@ public class inGame extends AppCompatActivity {
     public void checkGuess(View v)
     {
         EditText etGuess = (EditText) findViewById(R.id.inGame_EditText_userGuess);
+        ImageView iv = (ImageView) findViewById(R.id.inGame_ImageView_hint);
         String guessWord = etGuess.getText().toString();
         String nextWord  = gamePath.get(nextIndex);
         if(startMenu.game.checkGuess(guessWord))
         {
             nextIndex += 1;
-            getHintImage(gamePath.get(nextIndex));
-            Toast toast = Toast.makeText(this, "Success", Toast.LENGTH_SHORT);
-            toast.show();
-            ImageView iv = (ImageView) findViewById(R.id.inGame_ImageView_hint);
+            if(nextIndex == startMenu.puzzleSize-1) {
+                winScreen();
+            }
+            else {
+                hideKeyboard(this);
+                getHintImage(gamePath.get(nextIndex));
+                Toast toast = Toast.makeText(this, "Nice Guess", Toast.LENGTH_SHORT);
+                toast.show();
+            }
             iv.clearAnimation();
+            timer.cancel();
+            timer.purge();
         }
         else
         {
@@ -102,6 +116,35 @@ public class inGame extends AppCompatActivity {
         String URLstr = "https://pixabay.com/images/search/" + word;
         getURL search = new getURL();
         search.execute(URLstr);
+    }
+
+    public void winScreen()
+    {
+        hideKeyboard(this);
+        EditText etGuess = (EditText) findViewById(R.id.inGame_EditText_userGuess);
+        ImageView iv = (ImageView) findViewById(R.id.inGame_ImageView_hint);
+        Toast toast = Toast.makeText(this, "You Win", Toast.LENGTH_SHORT);
+        toast.show();
+        Button submitButton = (Button) findViewById(R.id.inGame_Button_submit);
+        Button hintButton = (Button) findViewById(R.id.inGame_Button_hint);
+        etGuess.setVisibility(View.GONE);
+        submitButton.setVisibility(View.GONE);
+        hintButton.setVisibility(View.GONE);
+        iv.setImageResource(R.drawable.trophy);
+    }
+
+    public void exitGame(View v)
+    {
+        finish();
+    }
+
+    public static void hideKeyboard( Activity activity ) {
+        InputMethodManager imm = (InputMethodManager)activity.getSystemService( Context.INPUT_METHOD_SERVICE );
+        View f = activity.getCurrentFocus();
+        if( null != f && null != f.getWindowToken() && EditText.class.isAssignableFrom( f.getClass() ) )
+            imm.hideSoftInputFromWindow( f.getWindowToken(), 0 );
+        else
+            activity.getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN );
     }
 
     public class getURL extends AsyncTask<String, Void, ArrayList<String>> {
@@ -168,7 +211,7 @@ public class inGame extends AppCompatActivity {
                     i++;
                 }
             };
-            Timer timer = new Timer();
+            timer = new Timer();
             timer.scheduleAtFixedRate(repeatImage, 0, 4000);
         }
     }
