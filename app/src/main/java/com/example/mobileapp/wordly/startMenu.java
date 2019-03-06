@@ -34,7 +34,6 @@ public class startMenu extends AppCompatActivity {
     public void startGame(View v)
     {
         Intent i = new Intent(this, inGame.class);
-        //i.putExtra("path",game);
         startActivity(i);
     }
 

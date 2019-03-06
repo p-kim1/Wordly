@@ -55,7 +55,7 @@ import javax.net.ssl.HttpsURLConnection;
 public class inGame extends AppCompatActivity {
 
     private static Context appContext;
-    private ArrayList<String> gamePath;
+    private static WordGame wordGame;
     private int nextIndex = 1;
     private Timer timer;
 
@@ -66,13 +66,12 @@ public class inGame extends AppCompatActivity {
         appContext = getApplicationContext();
         TextView tvStart = (TextView) findViewById(R.id.inGame_TextView_startWord);
         TextView tvEnd = (TextView) findViewById(R.id.inGame_TextView_endWord);
-        Intent i = getIntent();
-        gamePath = startMenu.game.getCurrentPath();
-        String startWord = startMenu.game.getCurrentWord();
-        String endWord = gamePath.get(startMenu.puzzleSize - 1);
+        wordGame = WordGame.getInstance(appContext);
+        String startWord = wordGame.getCurrentWord();
+        String endWord = wordGame.getTargetWord();
         tvStart.setText(startWord);
         tvEnd.setText(endWord);
-        getHintImage(gamePath.get(nextIndex));
+        getHintImage(wordGame.getNextWord());
     }
 
     public void checkGuess(View v)
@@ -80,16 +79,16 @@ public class inGame extends AppCompatActivity {
         EditText etGuess = (EditText) findViewById(R.id.inGame_EditText_userGuess);
         ImageView iv = (ImageView) findViewById(R.id.inGame_ImageView_hint);
         String guessWord = etGuess.getText().toString();
-        String nextWord  = gamePath.get(nextIndex);
-        if(startMenu.game.checkGuess(guessWord))
+        String nextWord  = wordGame.getNextWord();
+        if(wordGame.checkGuess(guessWord))
         {
             nextIndex += 1;
-            if(nextIndex == startMenu.puzzleSize-1) {
+            if(nextIndex == wordGame.getPathSize() - 1) {
                 winScreen();
             }
             else {
                 hideKeyboard(this);
-                getHintImage(gamePath.get(nextIndex));
+                getHintImage(wordGame.getNextWord());
                 Toast toast = Toast.makeText(this, "Nice Guess", Toast.LENGTH_SHORT);
                 toast.show();
             }
@@ -107,7 +106,7 @@ public class inGame extends AppCompatActivity {
 
     public void getHint(View v)
     {
-        Toast toast = Toast.makeText(this, startMenu.game.getHint().toString(), Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(this, wordGame.getHint().toString(), Toast.LENGTH_SHORT);
         toast.show();
     }
 
