@@ -97,8 +97,7 @@ public class WordGame {
     // Returns true if the path does not exist or if the iterator is one word from the end.
     // The reason for this is that the target word should already be revealed.
     public boolean isFinished() {
-
-        return pathIterator == path.size() - 1;
+        return pathIterator == path.size() - 2;
     }
 
     public Character getHint() {
