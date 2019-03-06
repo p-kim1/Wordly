@@ -29,6 +29,10 @@ public class startMenu extends AppCompatActivity {
         tv.animate();
         buildGame bg = new buildGame();
         bg.execute();
+
+        // Show welcome screen.
+        Intent intent = new Intent(this, WelcomeScreen.class);
+        startActivity(intent);
     }
 
     public void startGame(View v)
