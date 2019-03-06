@@ -55,6 +55,22 @@ public class WordGame {
         return path.get(pathIterator);
     }
 
+    // Returns the current path size.
+    Integer getPathSize() {
+        if (path == null) {
+            return null;
+        }
+        return path.size();
+    }
+
+    // Returns the end word.
+    String getTargetWord() {
+        if (path == null || path.size() == 0) {
+            return null;
+        }
+        return path.get(path.size() - 1);
+    }
+
     // Returns the word that is next in the path.
     private String getNextWord() {
         if (path == null || path.size() == 0 || pathIterator == path.size() - 1) {
