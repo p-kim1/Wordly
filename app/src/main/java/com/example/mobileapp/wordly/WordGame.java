@@ -11,13 +11,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class WordGame {
-    public static final String TAG = "WordGame";
+    static final String TAG = "WordGame";
+
+    // Singleton object.
+    private static WordGame wordGame;
 
     private WordGraph wordGraph;
     private int pathIterator = 0;
     private ArrayList<String> path;
 
-    public WordGame(Context context) {
+    // Default constructor to instantiate.
+    private WordGame(Context context) {
         try {
             wordGraph = new WordGraph(context.getAssets().open("unix_words.graph"));
         } catch (IOException ioException) {
@@ -25,7 +29,16 @@ public class WordGame {
         }
     }
 
-    public void newGame(int pathSize) {
+    // Returns the single instance of WordGame.
+    public WordGame getInstance(Context context) {
+        if (wordGame == null) {
+            wordGame = new WordGame(context);
+        }
+        return wordGame;
+    }
+
+    // Initializes a new game with the specified path size.
+    void newGame(int pathSize) {
         path = new ArrayList<>();
         pathIterator = 0;
         ArrayList<GraphNode<String>> temp = wordGraph.getRandomPath(pathSize);
@@ -34,22 +47,25 @@ public class WordGame {
         }
     }
 
-    public int getPathSize() {
-        return path.size();
-    }
-
-    public String getCurrentWord() {
+    // Returns the word that the user is currently trying to guess.
+    String getCurrentWord() {
+        if (path == null || path.size() == 0) {
+            return null;
+        }
         return path.get(pathIterator);
     }
 
-    public String getNextWord() {
-        if (pathIterator == path.size() - 1) {
+    // Returns the word that is next in the path.
+    private String getNextWord() {
+        if (path == null || path.size() == 0 || pathIterator == path.size() - 1) {
             return null;
         }
         return path.get(pathIterator + 1);
     }
 
-    public boolean checkGuess(String guess) {
+    // Checks the user's guess and returns a boolean accordingly.
+    // Updates the internal path iterator to advance to the next word for use by getCurrentWord().
+    boolean checkGuess(String guess) {
         if (isFinished()) {
             return false;
         }
@@ -61,44 +77,42 @@ public class WordGame {
         return false;
     }
 
+    // Returns true if the path does not exist or if the iterator is at the end.
     public boolean isFinished() {
-        return pathIterator == path.size() - 1;
-    }
-
-    public ArrayList<String> getCurrentPath() {
-        return path;
+        return path == null || pathIterator == path.size() - 1;
     }
 
     public Character getHint() {
-        if (pathIterator == path.size() - 1) {
-            return null;
-        }
-
         String curr = getCurrentWord();
         String next = getNextWord();
 
+        // There was no word found because there is no path or the game is over.
+        if (curr == null || next == null) {
+            return null;
+        }
+
+        // Find the difference and return it as the hint.
         for (int i = 0; i < curr.length(); i++) {
             if (curr.charAt(i) != next.charAt(i)) {
                 return next.charAt(i);
             }
         }
 
+        // Some unexpected behavior occurred and we don't know what hint to provide.
         return null;
     }
 
-    public ArrayList<String> getPath(String aWord, String bWord, int pathLimit) {
-        ArrayList<GraphNode<String>> path = wordGraph.getPath(wordGraph.getVertexWithValue(aWord),
+    // Allows the user to supply words with a valid path within some limit.
+    public void setPath(String aWord, String bWord, int pathLimit) {
+        ArrayList<GraphNode<String>> temp = wordGraph.getPath(wordGraph.getVertexWithValue(aWord),
                 wordGraph.getVertexWithValue(bWord), pathLimit - 1);
 
-        if (path == null) {
-            return null;
+        // Only update the current path if there was a valid path found.
+        if (temp != null) {
+            path = new ArrayList<>();
+            for (GraphNode<String> node : temp) {
+                path.add(node.getValue());
+            }
         }
-
-        ArrayList<String> retVal = new ArrayList<>();
-        for (GraphNode<String> node : path) {
-            retVal.add(node.getValue());
-        }
-
-        return retVal;
     }
 }
