@@ -4,6 +4,6 @@
     <color name="colorPrimaryDark">#087c23</color>
     <color name="colorAccent">#90a4ae</color>
     <color name="secondaryLight">#c1d5e0</color>
-    <color name="secondaryDock">#62757f</color>
+    <color name="secondaryDark">#62757f</color>
     <color name="white">#FFFFFF</color>
 </resources>

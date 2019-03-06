@@ -46,22 +46,26 @@
 
     <Button
         android:id="@+id/startMenu_Button_newPuzzle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
         android:layout_marginTop="8dp"
         android:onClick="newPuzzle"
         android:text="New Puzzle"
+        android:textColor="@color/white"
+        android:background="@color/secondaryDark"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/startMenu_Button_play"
         app:layout_constraintTop_toBottomOf="@+id/startMenu_EditText_fromWord" />
 
     <Button
         android:id="@+id/startMenu_Button_play"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
         android:layout_marginTop="8dp"
         android:onClick="startGame"
         android:text="Play"
+        android:textColor="@color/white"
+        android:background="@color/secondaryDark"
         app:layout_constraintLeft_toRightOf="@id/startMenu_Button_newPuzzle"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/startMenu_EditText_fromWord" />

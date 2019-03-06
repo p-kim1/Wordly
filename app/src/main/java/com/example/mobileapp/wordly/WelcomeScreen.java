@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
@@ -26,6 +27,7 @@ public class WelcomeScreen extends AppCompatActivity {
         });
 
         TextView textView = findViewById(R.id.WelcomeScreen_textView_description);
+        textView.setGravity(Gravity.CENTER_HORIZONTAL);
         textView.setText(R.string.welcome_screen);
     }
 }

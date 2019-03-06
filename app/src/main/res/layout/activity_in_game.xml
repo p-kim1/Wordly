@@ -6,8 +6,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="50dp"
-
+    android:paddingVertical="20dp"
+    android:paddingHorizontal="20dp"
     android:background="@color/white"
     tools:context=".inGame">
 
@@ -56,6 +56,8 @@
         android:layout_height="wrap_content"
         android:text="Submit"
         android:onClick="checkGuess"
+        android:textColor="@color/white"
+        android:background="@color/secondaryDark"
         app:layout_constraintTop_toBottomOf="@id/inGame_EditText_userGuess"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
@@ -66,6 +68,8 @@
         android:layout_height="wrap_content"
         android:text="Hint"
         android:onClick="getHint"
+        android:textColor="@color/white"
+        android:background="@color/secondaryDark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
 
