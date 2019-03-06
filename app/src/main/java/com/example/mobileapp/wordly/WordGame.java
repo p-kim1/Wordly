@@ -122,8 +122,9 @@ public class WordGame {
 
     // Allows the user to supply words with a valid path within some limit.
     public void setPath(String aWord, String bWord, int pathLimit) {
-        ArrayList<GraphNode<String>> temp = wordGraph.getPath(wordGraph.getVertexWithValue(aWord),
-                wordGraph.getVertexWithValue(bWord), pathLimit - 1);
+        GraphNode<String> start = wordGraph.getVertexWithValue(aWord);
+        GraphNode<String> end = wordGraph.getVertexWithValue(bWord);
+        ArrayList<GraphNode<String>> temp = wordGraph.getPath(start, end, pathLimit - 1);
 
         // Only update the current path if there was a valid path found.
         if (temp != null) {
