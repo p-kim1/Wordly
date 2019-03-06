@@ -71,7 +71,7 @@ public class inGame extends AppCompatActivity {
 
     private static Context appContext;
     private static WordGame wordGame;
-    private Boolean winState = false;
+    private boolean winState = false;
     private Timer timer;
 
     @Override

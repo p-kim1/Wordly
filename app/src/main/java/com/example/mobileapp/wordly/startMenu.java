@@ -16,7 +16,9 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Random;
 
@@ -24,6 +26,8 @@ import java.util.Random;
 public class startMenu extends AppCompatActivity {
     private Context appContext;
     private WordGame game = null;
+    private String randomStart = null;
+    private String randomEnd = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +36,7 @@ public class startMenu extends AppCompatActivity {
 
 
         appContext = getApplicationContext();
-        buttonsEnabled(false);
+        UIenabled(false);
         TextView tv = (TextView) findViewById(R.id.startMenu_TextView_initializing);
         Animation a = AnimationUtils.loadAnimation(appContext, R.anim.blink);
         tv.setAnimation(a);
@@ -48,30 +52,51 @@ public class startMenu extends AppCompatActivity {
     public void startGame(View v)
     {
         // Ensure game is playable.
+
         game.resetGame();
-        Intent i = new Intent(this, inGame.class);
-        startActivity(i);
+        EditText etStart = (EditText) findViewById(R.id.startMenu_EditText_fromWord);
+        EditText etEnd = (EditText) findViewById(R.id.startMenu_EditText_toWord);
+        String startWord = etStart.getText().toString();
+        String endWord = etEnd.getText().toString();
+        if(!randomStart.equals(startWord) || !randomEnd.equals(endWord))
+            game.setPath(startWord, endWord,9 );
+        if(game.getPathSize() <= 2)
+        {
+            Toast toast = Toast.makeText(this, "The path is too short.", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+        else if(startWord.equals(game.getCurrentWord()) && endWord.equals(game.getTargetWord())) {
+            Intent i = new Intent(this, inGame.class);
+            startActivity(i);
+        }
+        else{
+            Toast toast = Toast.makeText(this, "No path exists.", Toast.LENGTH_SHORT);
+            toast.show();
+        }
     }
 
-    public void buttonsEnabled(Boolean b)
+    public void UIenabled(Boolean b)
     {
+        EditText etStart = (EditText) findViewById(R.id.startMenu_EditText_fromWord);
+        EditText etEnd = (EditText) findViewById(R.id.startMenu_EditText_toWord);
         Button np = (Button) findViewById(R.id.startMenu_Button_newPuzzle);
         Button play = (Button) findViewById(R.id.startMenu_Button_play);
         np.setEnabled(b);
         play.setEnabled(b);
+        etStart.setEnabled(b);
+        etEnd.setEnabled(b);
     }
-
 
     public void newPuzzle(View v)
     {
         Random r = new Random();
         game.newGame(r.nextInt(4)+4);
-        String startWord = game.getCurrentWord();
-        String endWord = game.getTargetWord();
-        TextView tvStart = (TextView) findViewById(R.id.startMenu_TextView_fromWord);
-        TextView tvEnd = (TextView) findViewById(R.id.startMenu_TextView_toWord);
-        tvStart.setText(startWord);
-        tvEnd.setText(endWord);
+        randomStart = game.getCurrentWord();
+        randomEnd = game.getTargetWord();
+        EditText etStart = (EditText) findViewById(R.id.startMenu_EditText_fromWord);
+        EditText etEnd = (EditText) findViewById(R.id.startMenu_EditText_toWord);
+        etStart.setText(randomStart);
+        etEnd.setText(randomEnd);
     }
 
     public class buildGame extends AsyncTask<Void, Void, Void> {
@@ -86,7 +111,7 @@ public class startMenu extends AppCompatActivity {
             TextView tv = (TextView) findViewById(R.id.startMenu_TextView_initializing);
             tv.setVisibility(View.INVISIBLE);
             tv.clearAnimation();
-            buttonsEnabled(true);
+            UIenabled(true);
         }
 
     }

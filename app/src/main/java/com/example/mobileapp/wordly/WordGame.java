@@ -24,7 +24,7 @@ public class WordGame {
     // Default constructor to instantiate.
     public WordGame(Context context) {
         try {
-            wordGraph = new WordGraph(context.getAssets().open("unix_words.graph"));
+            wordGraph = new WordGraph(context.getAssets().open("gwicks_words.graph"));
         } catch (IOException ioException) {
             Log.d(TAG, "Unable to load word graph.");
         }
