@@ -30,7 +30,7 @@ public class WordGame {
     }
 
     // Returns the single instance of WordGame.
-    public WordGame getInstance(Context context) {
+    static WordGame getInstance(Context context) {
         if (wordGame == null) {
             wordGame = new WordGame(context);
         }
