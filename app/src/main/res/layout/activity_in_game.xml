@@ -14,7 +14,9 @@
         android:id="@+id/my_recycler_view"
         android:scrollbars="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        app:stackFromEnd="true"
+        app:reverseLayout="true"/>
 
     <TextView
         android:id="@+id/inGame_TextView_startWord"

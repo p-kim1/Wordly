@@ -90,9 +90,11 @@ public class startMenu extends AppCompatActivity {
     }
 
 
+    /*
     public void playGame(View v){
         Intent startGame = new Intent(startMenu.this, inGame.class);
         startActivity(startGame);
     }
+    */
 
 }

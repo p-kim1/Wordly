@@ -9,6 +9,7 @@ import android.util.Log;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class WordGame {
     public static final String TAG = "WordGame";
@@ -66,6 +67,7 @@ public class WordGame {
     }
 
     public ArrayList<String> getCurrentPath() {
+        Collections.reverse(path);
         return path;
     }
 

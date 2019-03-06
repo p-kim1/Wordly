@@ -47,6 +47,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -71,12 +73,19 @@ public class inGame extends AppCompatActivity {
         //getHintImage("pizza");
 
         recyclerView = findViewById(R.id.my_recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true));
-        WordGame wordGame = new WordGame(this);
-        wordGame.newGame(4);
-        ArrayList<String> listOfWords = wordGame.getCurrentPath();
 
-        //ArrayList<String> listOfWords
+
+        // use a linear layout manager
+        //layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true);
+        layoutManager = new LinearLayoutManager(this);
+        //((LinearLayoutManager) layoutManager).setReverseLayout(true);
+        //((LinearLayoutManager) layoutManager).setStackFromEnd(true);
+        recyclerView.setLayoutManager(layoutManager);
+
+        //WordGame wordGame = new WordGame(this);
+        //wordGame.newGame(4);
+        //ArrayList<String> listOfWords = startMenu.game.getCurrentPath();
+        //ArrayList<String> listOfWords = new ArrayList<>();
 
         /*
         listOfWords.add("pie");
@@ -99,40 +108,48 @@ public class inGame extends AppCompatActivity {
         listOfWords.add("cry");
         listOfWords.add("alibi");
         listOfWords.add("bye");
-
-
-        ArrayList<String> testList = new ArrayList<>();
-        testList.add("gold");
-        testList.add("golf");
-        testList.add("gulf");
-
         */
 
-        //listOfWords.add(wordGame.getCurrentPath().toArray());
-        //layoutManager = new LinearLayoutManager(this);
 
-        mAdapter = new WordAdapter(listOfWords);
-        //mAdapter = new WordAdapter(testList);
+        //mAdapter = new WordAdapter(listOfWords);
+        //Collections.reverse(startMenu.game.getCurrentPath());
+        ArrayList<String> list = startMenu.game.getCurrentPath();
+        //list = startMenu.game.getCurrentPath();
+        //Collections.reverse(list);
+        mAdapter = new WordAdapter(list);
         recyclerView.setAdapter(mAdapter);
-
-
-
         appContext = getApplicationContext();
+
+        //TextView tvStart = (TextView) findViewById(R.id.inGame_TextView_startWord);
+
+        ////TextView start = (TextView) findViewById(R.id.my_text_view);
+        //TextView tvEnd = (TextView) findViewById(R.id.inGame_TextView_endWord);
+        //String startWord = startMenu.game.getCurrentWord();
+        //tvStart.setText(startWord);
+        //start.setText(startWord);
+
+        //gamePath = startMenu.game.getCurrentPath();
+        //String endWord = list.get(startMenu.puzzleSize - 1);
+        //gamePath.get(startMenu.puzzleSize - 1);
+        //tvEnd.setText(endWord);
 
 
         //WordGame game = new WordGame(appContext,4);
         //System.out.println(game.getCurrentPath());
 
 
-        TextView tvStart = (TextView) findViewById(R.id.inGame_TextView_startWord);
-        TextView tvEnd = (TextView) findViewById(R.id.inGame_TextView_endWord);
+        /*
         Intent i = getIntent();
         gamePath = startMenu.game.getCurrentPath();
-        String startWord = startMenu.game.getCurrentWord();
-        String endWord = gamePath.get(startMenu.puzzleSize - 1);
-        tvStart.setText(startWord);
-        tvEnd.setText(endWord);
         getHintImage(gamePath.get(nextIndex));
+         //String startWord = listOfWords.getCurrentWord();
+         //listOfWords = startMenu.game.getCurrentPath();
+        */
+
+        //Intent i = getIntent();
+        //gamePath = startMenu.game.getCurrentPath();
+        //getHintImage(gamePath.get(0));
+        //getHintImage(listOfWords.get(nextIndex));
     }
 
     public void checkGuess(View v)
@@ -142,6 +159,7 @@ public class inGame extends AppCompatActivity {
         String nextWord  = gamePath.get(nextIndex);
         if(startMenu.game.checkGuess(guessWord))
         {
+            //Should this be put in an if-statement (as in, making sure nextIndex doesn't exceed gamePath size?
             nextIndex += 1;
             getHintImage(gamePath.get(nextIndex));
             Toast toast = Toast.makeText(this, "Success", Toast.LENGTH_SHORT);

@@ -56,11 +56,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Play"
-<<<<<<< HEAD
-        android:onClick="playGame"
-=======
         android:onClick="startGame"
->>>>>>> 2926fce7e1738e8231213987d0fa1cddc7e9f55c
         app:layout_constraintTop_toBottomOf="@+id/startMenu_TextView_fromWord"
         app:layout_constraintLeft_toRightOf="@id/startMenu_Button_newPuzzle"
         app:layout_constraintRight_toRightOf="parent"/>
