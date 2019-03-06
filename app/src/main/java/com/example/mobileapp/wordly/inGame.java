@@ -85,8 +85,22 @@ public class inGame extends AppCompatActivity {
 
         // use a linear layout manager
         LinearLayoutManager layoutManager= new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        //layoutManager.setReverseLayout(true);
+        //layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
+        //ArrayList<String> list = new ArrayList<>();
         appContext = getApplicationContext();
+
+        //wordGame = new WordGame(appContext);
+        
+        //wordGame.newGame(4);
+        //list = wordGame.path;
+        //list.add(wordGame.getTargetWord());
+        //list.add(wordGame.getCurrentWord());
+        //list.add(wordGame.getTargetWord());
+
+        //mAdapter = new WordAdapter(list);
+        //recyclerView.setAdapter(mAdapter);
 
         mAdapter = new WordAdapter(listOfWords);
         recyclerView.setAdapter(mAdapter);
@@ -113,8 +127,10 @@ public class inGame extends AppCompatActivity {
         {
             listOfWords.add(wordGame.getCurrentWord());
 
+            //getHintImage(gamePath.get(nextIndex));
             Toast toast = Toast.makeText(this, "Success", Toast.LENGTH_SHORT);
             toast.show();
+            //ImageView iv = (ImageView) findViewById(R.id.inGame_ImageView_hint);
 
             iv.clearAnimation();
             timer.cancel();
