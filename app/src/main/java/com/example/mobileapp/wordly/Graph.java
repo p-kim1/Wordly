@@ -20,7 +20,7 @@ import java.util.ArrayList;
 class GraphNode<T> {
     private T value;
 
-    // hashset for quick checking of neighbors
+    // HashSet allows for quick checking of neighbors.
     private HashSet<T> uniqueNeighborValues = new HashSet<>();
     private ArrayList<GraphNode<T>> neighbors = new ArrayList<>();
 
@@ -211,7 +211,7 @@ public class Graph<T> {
         return stringBuilder.toString();
     }
 
-    // removes vertices with no neighbors
+    // Removes vertices with no neighbors.
     protected void prune() {
         int i = 0;
         while (i < vertices.size()) {
