@@ -56,7 +56,6 @@ public class inGame extends AppCompatActivity {
 
     private static Context appContext;
     private static WordGame wordGame;
-    private int nextIndex = 1;
     private Timer timer;
 
     @Override
@@ -82,8 +81,7 @@ public class inGame extends AppCompatActivity {
         String nextWord  = wordGame.getNextWord();
         if(wordGame.checkGuess(guessWord))
         {
-            nextIndex += 1;
-            if(nextIndex == wordGame.getPathSize() - 1) {
+            if(wordGame.isFinished()) {
                 winScreen();
             }
             else {
