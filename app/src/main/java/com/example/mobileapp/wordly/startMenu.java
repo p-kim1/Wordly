@@ -35,7 +35,6 @@ public class startMenu extends AppCompatActivity {
     {
         // Ensure game is playable.
         game.resetGame();
-
         Intent i = new Intent(this, inGame.class);
         startActivity(i);
     }

@@ -56,7 +56,7 @@ public class inGame extends AppCompatActivity {
 
     private static Context appContext;
     private static WordGame wordGame;
-    private int nextIndex = 1;
+    private Boolean winState = false;
     private Timer timer;
 
     @Override
@@ -85,8 +85,8 @@ public class inGame extends AppCompatActivity {
             iv.clearAnimation();
             timer.cancel();
             timer.purge();
-            nextIndex += 1;
-            if(nextIndex == wordGame.getPathSize() - 1) {
+            if(wordGame.isFinished()) {
+                winState = true;
                 winScreen();
             }
             else {
@@ -240,16 +240,17 @@ public class inGame extends AppCompatActivity {
         }
 
         protected void onPostExecute(Bitmap out) {
-            TextView tv = (TextView) findViewById(R.id.inGame_TextView_loading);
-            tv.setVisibility(View.INVISIBLE);
-            tv.clearAnimation();
-            ImageView iv = (ImageView) findViewById(R.id.inGame_ImageView_hint);
-            iv.setImageBitmap(out);
-
-            iv.setVisibility(View.VISIBLE);
-            Animation a = AnimationUtils.loadAnimation(appContext, R.anim.fade_in);
-            iv.setAnimation(a);
-            iv.animate();
+            if(!winState) {
+                TextView tv = (TextView) findViewById(R.id.inGame_TextView_loading);
+                tv.setVisibility(View.INVISIBLE);
+                tv.clearAnimation();
+                ImageView iv = (ImageView) findViewById(R.id.inGame_ImageView_hint);
+                iv.setImageBitmap(out);
+                iv.setVisibility(View.VISIBLE);
+                Animation a = AnimationUtils.loadAnimation(appContext, R.anim.fade_in);
+                iv.setAnimation(a);
+                iv.animate();
+            }
         }
     }
 }
