@@ -56,6 +56,7 @@ public class inGame extends AppCompatActivity {
 
     private static Context appContext;
     private static WordGame wordGame;
+    private int nextIndex = 1;
     private Timer timer;
 
     @Override
@@ -81,7 +82,11 @@ public class inGame extends AppCompatActivity {
         String nextWord  = wordGame.getNextWord();
         if(wordGame.checkGuess(guessWord))
         {
-            if(wordGame.isFinished()) {
+            iv.clearAnimation();
+            timer.cancel();
+            timer.purge();
+            nextIndex += 1;
+            if(nextIndex == wordGame.getPathSize() - 1) {
                 winScreen();
             }
             else {
@@ -90,9 +95,6 @@ public class inGame extends AppCompatActivity {
                 Toast toast = Toast.makeText(this, "Nice Guess", Toast.LENGTH_SHORT);
                 toast.show();
             }
-            iv.clearAnimation();
-            timer.cancel();
-            timer.purge();
         }
         else
         {
@@ -128,11 +130,6 @@ public class inGame extends AppCompatActivity {
         submitButton.setVisibility(View.GONE);
         hintButton.setVisibility(View.GONE);
         iv.setImageResource(R.drawable.trophy);
-    }
-
-    public void exitGame(View v)
-    {
-        finish();
     }
 
     public static void hideKeyboard( Activity activity ) {
