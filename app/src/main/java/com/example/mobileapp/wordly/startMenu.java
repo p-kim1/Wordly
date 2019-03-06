@@ -11,14 +11,11 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 public class startMenu extends AppCompatActivity {
-
-    private static Context appContext;
-    protected static WordGame game = null;
-    protected static int puzzleSize;
+    private Context appContext;
+    private WordGame game = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,9 +51,8 @@ public class startMenu extends AppCompatActivity {
     {
         Random r = new Random();
         game.newGame(r.nextInt(4)+4);
-        puzzleSize = game.getCurrentPath().size();
         String startWord = game.getCurrentWord();
-        String endWord = game.getCurrentPath().get(puzzleSize-1);
+        String endWord = game.getTargetWord();
         TextView tvStart = (TextView) findViewById(R.id.startMenu_TextView_fromWord);
         TextView tvEnd = (TextView) findViewById(R.id.startMenu_TextView_toWord);
         tvStart.setText(startWord);
@@ -65,9 +61,10 @@ public class startMenu extends AppCompatActivity {
 
     public class buildGame extends AsyncTask<Void, Void, Void> {
         protected Void doInBackground(Void... args) {
-            game = new WordGame(appContext);
+            game = WordGame.getInstance(appContext);
             return null;
         }
+
         @Override
         protected void onPostExecute(Void aVoid) {
             newPuzzle(null);
