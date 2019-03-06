@@ -72,7 +72,7 @@ public class WordGame {
     }
 
     // Returns the word that is next in the path.
-    private String getNextWord() {
+    String getNextWord() {
         if (path == null || path.size() == 0 || pathIterator == path.size() - 1) {
             return null;
         }
