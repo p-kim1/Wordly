@@ -1,5 +1,6 @@
 package com.example.mobileapp.wordly;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -18,17 +19,23 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
 import android.view.View;
+import android.view.WindowManager;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -59,12 +66,13 @@ import javax.net.ssl.HttpsURLConnection;
 public class inGame extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager layoutManager;
-    //ArrayList<String> listOfWords = new ArrayList<>();
+    //private RecyclerView.LayoutManager layoutManager;
+    ArrayList<String> listOfWords = new ArrayList<>();
 
     private static Context appContext;
-    private ArrayList<String> gamePath;
-    private int nextIndex = 1;
+    private static WordGame wordGame;
+    private Boolean winState = false;
+    private Timer timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,96 +84,67 @@ public class inGame extends AppCompatActivity {
 
 
         // use a linear layout manager
-        //layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true);
-        layoutManager = new LinearLayoutManager(this);
-        //((LinearLayoutManager) layoutManager).setReverseLayout(true);
-        //((LinearLayoutManager) layoutManager).setStackFromEnd(true);
+        LinearLayoutManager layoutManager= new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        //layoutManager.setReverseLayout(true);
+        //layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-
-        //WordGame wordGame = new WordGame(this);
-        //wordGame.newGame(4);
-        //ArrayList<String> listOfWords = startMenu.game.getCurrentPath();
-        //ArrayList<String> listOfWords = new ArrayList<>();
-
-        /*
-        listOfWords.add("pie");
-        listOfWords.add("fly");
-        listOfWords.add("try");
-        listOfWords.add("tie");
-        listOfWords.add("tye");
-        listOfWords.add("lie");
-        listOfWords.add("sky");
-        listOfWords.add("why");
-        listOfWords.add("fry");
-        listOfWords.add("rye");
-        listOfWords.add("guy");
-        listOfWords.add("die");
-        listOfWords.add("buy");
-        listOfWords.add("my");
-        listOfWords.add("sigh");
-        listOfWords.add("glide");
-        listOfWords.add("delight");
-        listOfWords.add("cry");
-        listOfWords.add("alibi");
-        listOfWords.add("bye");
-        */
-
-
-        //mAdapter = new WordAdapter(listOfWords);
-        //Collections.reverse(startMenu.game.getCurrentPath());
-        ArrayList<String> list = startMenu.game.getCurrentPath();
-        //list = startMenu.game.getCurrentPath();
-        //Collections.reverse(list);
-        mAdapter = new WordAdapter(list);
-        recyclerView.setAdapter(mAdapter);
+        //ArrayList<String> list = new ArrayList<>();
         appContext = getApplicationContext();
 
-        //TextView tvStart = (TextView) findViewById(R.id.inGame_TextView_startWord);
+        //wordGame = new WordGame(appContext);
+        
+        //wordGame.newGame(4);
+        //list = wordGame.path;
+        //list.add(wordGame.getTargetWord());
+        //list.add(wordGame.getCurrentWord());
+        //list.add(wordGame.getTargetWord());
 
-        ////TextView start = (TextView) findViewById(R.id.my_text_view);
-        //TextView tvEnd = (TextView) findViewById(R.id.inGame_TextView_endWord);
-        //String startWord = startMenu.game.getCurrentWord();
-        //tvStart.setText(startWord);
-        //start.setText(startWord);
+        //mAdapter = new WordAdapter(list);
+        //recyclerView.setAdapter(mAdapter);
 
-        //gamePath = startMenu.game.getCurrentPath();
-        //String endWord = list.get(startMenu.puzzleSize - 1);
-        //gamePath.get(startMenu.puzzleSize - 1);
-        //tvEnd.setText(endWord);
+        mAdapter = new WordAdapter(listOfWords);
+        recyclerView.setAdapter(mAdapter);
 
+        TextView tvStart = (TextView) findViewById(R.id.inGame_TextView_startWord);
+        TextView tvEnd = (TextView) findViewById(R.id.inGame_TextView_endWord);
+        wordGame = WordGame.getInstance(appContext);
+        String startWord = wordGame.getCurrentWord();
+        String endWord = wordGame.getTargetWord();
+        tvStart.setText(startWord);
+        tvEnd.setText(endWord);
+        getHintImage(wordGame.getNextWord());
 
-        //WordGame game = new WordGame(appContext,4);
-        //System.out.println(game.getCurrentPath());
-
-
-        /*
-        Intent i = getIntent();
-        gamePath = startMenu.game.getCurrentPath();
-        getHintImage(gamePath.get(nextIndex));
-         //String startWord = listOfWords.getCurrentWord();
-         //listOfWords = startMenu.game.getCurrentPath();
-        */
-
-        //Intent i = getIntent();
-        //gamePath = startMenu.game.getCurrentPath();
-        //getHintImage(gamePath.get(0));
-        //getHintImage(listOfWords.get(nextIndex));
     }
 
     public void checkGuess(View v)
     {
         EditText etGuess = (EditText) findViewById(R.id.inGame_EditText_userGuess);
+        ImageView iv = (ImageView) findViewById(R.id.inGame_ImageView_hint);
         String guessWord = etGuess.getText().toString();
-        String nextWord  = gamePath.get(nextIndex);
-        if(startMenu.game.checkGuess(guessWord))
+        String nextWord  = wordGame.getNextWord();
+
+        if(wordGame.checkGuess(guessWord))
         {
-            //Should this be put in an if-statement (as in, making sure nextIndex doesn't exceed gamePath size?
-            nextIndex += 1;
-            getHintImage(gamePath.get(nextIndex));
+            listOfWords.add(wordGame.getCurrentWord());
+
+            //getHintImage(gamePath.get(nextIndex));
             Toast toast = Toast.makeText(this, "Success", Toast.LENGTH_SHORT);
             toast.show();
-            ImageView iv = (ImageView) findViewById(R.id.inGame_ImageView_hint);
+            //ImageView iv = (ImageView) findViewById(R.id.inGame_ImageView_hint);
+
             iv.clearAnimation();
+            timer.cancel();
+            timer.purge();
+            if(wordGame.isFinished()) {
+                winState = true;
+                winScreen();
+            }
+            else {
+                hideKeyboard(this);
+                getHintImage(wordGame.getNextWord());
+                toast = Toast.makeText(this, "Nice Guess", Toast.LENGTH_SHORT);
+                toast.show();
+            }
         }
         else
         {
@@ -177,7 +156,7 @@ public class inGame extends AppCompatActivity {
 
     public void getHint(View v)
     {
-        Toast toast = Toast.makeText(this, startMenu.game.getHint().toString(), Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(this, wordGame.getHint().toString(), Toast.LENGTH_SHORT);
         toast.show();
 
     }
@@ -187,6 +166,30 @@ public class inGame extends AppCompatActivity {
         String URLstr = "https://pixabay.com/images/search/" + word;
         getURL search = new getURL();
         search.execute(URLstr);
+    }
+
+    public void winScreen()
+    {
+        hideKeyboard(this);
+        EditText etGuess = (EditText) findViewById(R.id.inGame_EditText_userGuess);
+        ImageView iv = (ImageView) findViewById(R.id.inGame_ImageView_hint);
+        Toast toast = Toast.makeText(this, "You Win", Toast.LENGTH_SHORT);
+        toast.show();
+        Button submitButton = (Button) findViewById(R.id.inGame_Button_submit);
+        Button hintButton = (Button) findViewById(R.id.inGame_Button_hint);
+        etGuess.setVisibility(View.GONE);
+        submitButton.setVisibility(View.GONE);
+        hintButton.setVisibility(View.GONE);
+        iv.setImageResource(R.drawable.trophy);
+    }
+
+    public static void hideKeyboard( Activity activity ) {
+        InputMethodManager imm = (InputMethodManager)activity.getSystemService( Context.INPUT_METHOD_SERVICE );
+        View f = activity.getCurrentFocus();
+        if( null != f && null != f.getWindowToken() && EditText.class.isAssignableFrom( f.getClass() ) )
+            imm.hideSoftInputFromWindow( f.getWindowToken(), 0 );
+        else
+            activity.getWindow().setSoftInputMode( WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN );
     }
 
     public class getURL extends AsyncTask<String, Void, ArrayList<String>> {
@@ -253,7 +256,7 @@ public class inGame extends AppCompatActivity {
                     i++;
                 }
             };
-            Timer timer = new Timer();
+            timer = new Timer();
             timer.scheduleAtFixedRate(repeatImage, 0, 4000);
         }
     }
@@ -288,16 +291,17 @@ public class inGame extends AppCompatActivity {
         }
 
         protected void onPostExecute(Bitmap out) {
-            TextView tv = (TextView) findViewById(R.id.inGame_TextView_loading);
-            tv.setVisibility(View.INVISIBLE);
-            tv.clearAnimation();
-            ImageView iv = (ImageView) findViewById(R.id.inGame_ImageView_hint);
-            iv.setImageBitmap(out);
-
-            iv.setVisibility(View.VISIBLE);
-            Animation a = AnimationUtils.loadAnimation(appContext, R.anim.fade_in);
-            iv.setAnimation(a);
-            iv.animate();
+            if(!winState) {
+                TextView tv = (TextView) findViewById(R.id.inGame_TextView_loading);
+                tv.setVisibility(View.INVISIBLE);
+                tv.clearAnimation();
+                ImageView iv = (ImageView) findViewById(R.id.inGame_ImageView_hint);
+                iv.setImageBitmap(out);
+                iv.setVisibility(View.VISIBLE);
+                Animation a = AnimationUtils.loadAnimation(appContext, R.anim.fade_in);
+                iv.setAnimation(a);
+                iv.animate();
+            }
         }
     }
 }

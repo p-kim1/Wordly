@@ -7,6 +7,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="50dp"
+
+    android:background="@color/white"
     tools:context=".inGame">
 
     <android.support.v7.widget.RecyclerView
@@ -15,8 +17,8 @@
         android:scrollbars="horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:stackFromEnd="true"
-        app:reverseLayout="true"/>
+        android:gravity="center"
+       />
 
     <TextView
         android:id="@+id/inGame_TextView_startWord"
@@ -62,6 +64,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="word"
+        android:maxLines="1"
+        android:inputType="text"
         app:layout_constraintTop_toBottomOf="@id/inGame_TextView_startWord"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
@@ -83,6 +87,7 @@
         android:onClick="getHint"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
+
 
     <ImageView
         android:id="@+id/inGame_ImageView_hint"
