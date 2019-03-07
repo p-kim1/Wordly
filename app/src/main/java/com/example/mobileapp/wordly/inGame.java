@@ -78,10 +78,7 @@ public class inGame extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_in_game);
-        //getHintImage("pizza");
-
         recyclerView = findViewById(R.id.my_recycler_view);
-
 
         // use a linear layout manager
         LinearLayoutManager layoutManager= new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -91,6 +88,13 @@ public class inGame extends AppCompatActivity {
 
         mAdapter = new WordAdapter(listOfWords);
         recyclerView.setAdapter(mAdapter);
+
+        ImageView leftArrow = (ImageView) findViewById(R.id.inGame_ImageView_left_arrow);
+        ImageView rightArrow = (ImageView) findViewById(R.id.inGame_ImageView_right_arrow);
+        TextView scroll = (TextView) findViewById(R.id.inGame_TextView_scroll);
+        leftArrow.setVisibility(View.INVISIBLE);
+        rightArrow.setVisibility(View.INVISIBLE);
+        scroll.setVisibility(View.INVISIBLE);
 
         TextView tvStart = (TextView) findViewById(R.id.inGame_TextView_startWord);
         TextView tvEnd = (TextView) findViewById(R.id.inGame_TextView_endWord);
@@ -113,6 +117,16 @@ public class inGame extends AppCompatActivity {
         if(wordGame.checkGuess(guessWord))
         {
             listOfWords.add(wordGame.getCurrentWord());
+
+            if(listOfWords.size() > 1)
+            {
+                ImageView leftArrow = (ImageView) findViewById(R.id.inGame_ImageView_left_arrow);
+                ImageView rightArrow = (ImageView) findViewById(R.id.inGame_ImageView_right_arrow);
+                TextView scroll = (TextView) findViewById(R.id.inGame_TextView_scroll);
+                leftArrow.setVisibility(View.VISIBLE);
+                rightArrow.setVisibility(View.VISIBLE);
+                scroll.setVisibility(View.VISIBLE);
+            }
 
             Toast toast = Toast.makeText(this, "Success", Toast.LENGTH_SHORT);
             toast.show();

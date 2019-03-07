@@ -125,7 +125,7 @@ public class Graph<T> {
             GraphNode<T> temp = nodeQueue.removeFirst();
             int depth = depthQueue.removeFirst();
 
-            if (depth == depthLimit) {
+            if (depth == depthLimit || temp == null) {
                 return null;
             }
 
