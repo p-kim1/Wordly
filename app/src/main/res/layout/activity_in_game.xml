@@ -14,9 +14,10 @@
     <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/my_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:gravity="center"
-        android:scrollbars="horizontal"
+        android:overScrollMode="never"
+        android:scrollbars="none"
         tools:layout_editor_absoluteX="20dp"
         tools:layout_editor_absoluteY="20dp" />
 
@@ -26,9 +27,9 @@
         android:layout_height="40dp"
         android:gravity="center"
         android:text="start"
+        android:background="@color/white"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:background="@android:color/holo_blue_light" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/inGame_TextView_endWord"
@@ -36,26 +37,27 @@
         android:layout_height="40dp"
         android:gravity="center"
         android:text="end"
+        android:background="@color/white"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:background="@android:color/holo_blue_light" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/inGame_EditText_userGuess"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
         android:hint="word"
         android:inputType="text"
         android:maxLines="1"
+        android:gravity="center_horizontal"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/inGame_TextView_startWord" />
 
     <Button
         android:id="@+id/inGame_Button_submit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
         android:layout_marginTop="28dp"
         android:background="@color/secondaryDark"
         android:onClick="checkGuess"
@@ -67,8 +69,8 @@
 
     <Button
         android:id="@+id/inGame_Button_hint"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
         android:text="Hint"
         android:onClick="getHint"
         android:textColor="@color/white"
