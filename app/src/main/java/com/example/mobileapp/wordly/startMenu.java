@@ -34,6 +34,8 @@ public class startMenu extends AppCompatActivity {
     private String randomEnd = null;
     protected static int gamesPlayed;
     protected static int hintsUsed;
+    protected static int wins;
+    protected static int loses;
     protected static SharedPreferences prefs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,10 +45,16 @@ public class startMenu extends AppCompatActivity {
         prefs = this.getSharedPreferences("com.example.mobileapp.wordly", Context.MODE_PRIVATE);
         gamesPlayed = prefs.getInt("gamesPlayed",0);
         hintsUsed = prefs.getInt("hintsUsed",0);
+        wins = prefs.getInt("wins",0);
+        loses = prefs.getInt("loses",0);
         TextView tvNumGames = (TextView) findViewById(R.id.startMenu_TextView_games_played);
         TextView tvNumHints = (TextView) findViewById(R.id.startMenu_TextView_hints_used);
+        TextView tvWins = (TextView) findViewById(R.id.startMenu_TextView_wins);
+        TextView tvLoses = (TextView) findViewById(R.id.startMenu_TextView_loses);
         tvNumGames.setText("Games played: " + gamesPlayed);
         tvNumHints.setText("Hints used: " + hintsUsed);
+        tvWins.setText("Total wins: " + wins);
+        tvLoses.setText("Total loses: " + loses);
 
         appContext = getApplicationContext();
         UIenabled(false);
@@ -136,10 +144,16 @@ public class startMenu extends AppCompatActivity {
         super.onResume();
         prefs.edit().putInt("gamesPlayed", gamesPlayed).apply();
         prefs.edit().putInt("hintsUsed", hintsUsed).apply();
+        prefs.edit().putInt("wins", wins).apply();
+        prefs.edit().putInt("loses", loses).apply();
         TextView tvNumGames = (TextView) findViewById(R.id.startMenu_TextView_games_played);
         TextView tvNumHints = (TextView) findViewById(R.id.startMenu_TextView_hints_used);
+        TextView tvWins = (TextView) findViewById(R.id.startMenu_TextView_wins);
+        TextView tvLoses = (TextView) findViewById(R.id.startMenu_TextView_loses);
         tvNumGames.setText("Games played: " + gamesPlayed);
         tvNumHints.setText("Hints used: " + hintsUsed);
+        tvWins.setText("Total wins: " + wins);
+        tvLoses.setText("Total loses: " + loses);
     }
 
 }

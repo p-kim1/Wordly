@@ -73,8 +73,9 @@ public class inGame extends AppCompatActivity {
 
     private static Context appContext;
     private static WordGame wordGame;
-    private boolean winState = false;
+    private boolean endState = false;
     private Timer timer;
+    private int guessesLeft;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +100,7 @@ public class inGame extends AppCompatActivity {
         rightArrow.setVisibility(View.INVISIBLE);
         scroll.setVisibility(View.INVISIBLE);
 
+        TextView tvGuessesLeft = (TextView) findViewById(R.id.inGame_TextView_guesses_left);
         TextView tvStart = (TextView) findViewById(R.id.inGame_TextView_startWord);
         TextView tvEnd = (TextView) findViewById(R.id.inGame_TextView_endWord);
         wordGame = WordGame.getInstance(appContext);
@@ -106,6 +108,8 @@ public class inGame extends AppCompatActivity {
         String endWord = wordGame.getTargetWord();
         tvStart.setText(startWord);
         tvEnd.setText(endWord);
+        guessesLeft = (wordGame.getPathSize()-2);
+        tvGuessesLeft.setText("Guesses Left: " + guessesLeft);
         getHintImage(wordGame.getNextWord());
 
     }
@@ -135,7 +139,7 @@ public class inGame extends AppCompatActivity {
             timer.cancel();
             timer.purge();
             if(wordGame.isFinished()) {
-                winState = true;
+                endState = true;
                 winScreen();
             }
             else {
@@ -149,6 +153,14 @@ public class inGame extends AppCompatActivity {
         }
         else
         {
+            guessesLeft -= 1;
+            TextView tvGuessesLeft = (TextView) findViewById(R.id.inGame_TextView_guesses_left);
+            tvGuessesLeft.setText("Guesses Left: " + guessesLeft);
+            if(guessesLeft == 0)
+            {
+                endState = true;
+                loseScreen();
+            }
             Toast toast = Toast.makeText(this, "Incorrect Guess", Toast.LENGTH_SHORT);
             toast.show();
         }
@@ -170,24 +182,46 @@ public class inGame extends AppCompatActivity {
         search.execute(URLstr);
     }
 
-    public void winScreen()
+    public void hideUI()
     {
         hideKeyboard(this);
         EditText etGuess = (EditText) findViewById(R.id.inGame_EditText_userGuess);
-        ImageView iv = (ImageView) findViewById(R.id.inGame_ImageView_hint);
         // "Loading image..." textview should be disabled if it was not already.
         // This issue occurs when user is not connected to Wi-Fi.
         TextView loadingText = findViewById(R.id.inGame_TextView_loading);
-        Toast toast = Toast.makeText(this, "You Win", Toast.LENGTH_SHORT);
-        toast.show();
-        Button submitButton = (Button) findViewById(R.id.inGame_Button_submit);
+        TextView tvGuessesLeft = (TextView) findViewById(R.id.inGame_TextView_guesses_left);
         Button hintButton = (Button) findViewById(R.id.inGame_Button_hint);
         // Disable loadingText.
         loadingText.clearAnimation();
         loadingText.setVisibility(View.INVISIBLE);
         etGuess.setVisibility(View.GONE);
-        submitButton.setVisibility(View.GONE);
         hintButton.setVisibility(View.GONE);
+        tvGuessesLeft.setVisibility(View.GONE);
+    }
+
+    public void loseScreen()
+    {
+        startMenu.loses += 1;
+        Button submitButton = (Button) findViewById(R.id.inGame_Button_submit);
+        submitButton.setEnabled(false);
+        Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
+        submitButton.setAnimation(shake);
+        submitButton.setText("You Lose!");
+        ImageView iv = (ImageView) findViewById(R.id.inGame_ImageView_hint);
+        hideUI();
+        iv.setImageResource(R.drawable.you_lose);
+    }
+
+    public void winScreen()
+    {
+        startMenu.wins += 1;
+        Button submitButton = (Button) findViewById(R.id.inGame_Button_submit);
+        submitButton.setEnabled(false);
+        Animation shake = AnimationUtils.loadAnimation(this, R.anim.shake);
+        submitButton.setAnimation(shake);
+        submitButton.setText("You Win!");
+        ImageView iv = (ImageView) findViewById(R.id.inGame_ImageView_hint);
+        hideUI();
         iv.setImageResource(R.drawable.trophy);
     }
 
@@ -303,7 +337,7 @@ public class inGame extends AppCompatActivity {
         }
 
         protected void onPostExecute(Bitmap out) {
-            if(!winState) {
+            if(!endState) {
                 TextView tv = (TextView) findViewById(R.id.inGame_TextView_loading);
                 tv.setVisibility(View.INVISIBLE);
                 tv.clearAnimation();
