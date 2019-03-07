@@ -54,7 +54,7 @@ public class startMenu extends AppCompatActivity {
         tvNumGames.setText("Games played: " + gamesPlayed);
         tvNumHints.setText("Hints used: " + hintsUsed);
         tvWins.setText("Total wins: " + wins);
-        tvLoses.setText("Total loses: " + loses);
+        tvLoses.setText("Total losses: " + loses);
 
         appContext = getApplicationContext();
         UIenabled(false);
