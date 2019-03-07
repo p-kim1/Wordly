@@ -19,7 +19,8 @@
         android:overScrollMode="never"
         android:scrollbars="none"
         tools:layout_editor_absoluteX="20dp"
-        tools:layout_editor_absoluteY="20dp" />
+        tools:layout_editor_absoluteY="20dp"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
         android:id="@+id/inGame_TextView_startWord"
