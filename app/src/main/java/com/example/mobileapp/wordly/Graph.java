@@ -42,6 +42,10 @@ class GraphNode<T> {
     }
 
     GraphNode<T> getRandomNeighbor() {
+        if (neighbors.isEmpty()) {
+            return null;
+        }
+
         Random generator = new Random();
         int randomIndex = generator.nextInt(neighbors.size());
         return neighbors.get(randomIndex);
@@ -186,6 +190,10 @@ public class Graph<T> {
 
         while (path.size() < pathSize) {
             GraphNode<T> next = vertex.getRandomNeighbor();
+            if (next == null) {
+                return null;
+            }
+
             if (uniqueValues.contains(next.getValue())) {
                 return null;
             } else {
