@@ -15,18 +15,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".WelcomeScreen"></activity>
+        <activity
+            android:name=".WelcomeScreen"
+            android:label="Chit Chat">
+        </activity>
         <activity
             android:name=".startMenu"
+            android:label="Chit Chat"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".inGame"
+            android:label="Chit Chat"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan">
         </activity>

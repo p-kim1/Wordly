@@ -63,6 +63,8 @@ import java.util.concurrent.ExecutionException;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import static com.example.mobileapp.wordly.startMenu.hintsUsed;
+
 public class inGame extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -78,10 +80,7 @@ public class inGame extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_in_game);
-        //getHintImage("pizza");
-
         recyclerView = findViewById(R.id.my_recycler_view);
-
 
         // use a linear layout manager
         LinearLayoutManager layoutManager= new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
@@ -157,6 +156,7 @@ public class inGame extends AppCompatActivity {
 
     public void getHint(View v)
     {
+        hintsUsed += 1;
         Toast toast = Toast.makeText(this, wordGame.getHint().toString(), Toast.LENGTH_SHORT);
         toast.show();
 
