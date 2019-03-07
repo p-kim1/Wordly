@@ -2,6 +2,8 @@ package com.example.mobileapp.wordly;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -20,6 +22,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
 import java.util.Random;
 
 
@@ -28,12 +32,21 @@ public class startMenu extends AppCompatActivity {
     private WordGame game = null;
     private String randomStart = null;
     private String randomEnd = null;
-
+    protected static int gamesPlayed;
+    protected static int hintsUsed;
+    protected static SharedPreferences prefs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start_menu);
 
+        prefs = this.getSharedPreferences("com.example.mobileapp.wordly", Context.MODE_PRIVATE);
+        gamesPlayed = prefs.getInt("gamesPlayed",0);
+        hintsUsed = prefs.getInt("hintsUsed",0);
+        TextView tvNumGames = (TextView) findViewById(R.id.startMenu_TextView_games_played);
+        TextView tvNumHints = (TextView) findViewById(R.id.startMenu_TextView_hints_used);
+        tvNumGames.setText("Games played: " + gamesPlayed);
+        tvNumHints.setText("Hints used: " + hintsUsed);
 
         appContext = getApplicationContext();
         UIenabled(false);
@@ -66,6 +79,7 @@ public class startMenu extends AppCompatActivity {
             toast.show();
         }
         else if(startWord.equals(game.getCurrentWord()) && endWord.equals(game.getTargetWord())) {
+            gamesPlayed += 1;
             Intent i = new Intent(this, inGame.class);
             startActivity(i);
         }
@@ -116,6 +130,17 @@ public class startMenu extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        prefs.edit().putInt("gamesPlayed", gamesPlayed).apply();
+        prefs.edit().putInt("hintsUsed", hintsUsed).commit();
+        TextView tvNumGames = (TextView) findViewById(R.id.startMenu_TextView_games_played);
+        TextView tvNumHints = (TextView) findViewById(R.id.startMenu_TextView_hints_used);
+        tvNumGames.setText("Games played: " + gamesPlayed);
+        tvNumHints.setText("Hints used: " + hintsUsed);
+    }
 
     /*
     public void playGame(View v){
