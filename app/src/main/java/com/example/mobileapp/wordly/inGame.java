@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -68,7 +69,6 @@ import static com.example.mobileapp.wordly.startMenu.hintsUsed;
 public class inGame extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
-    //private RecyclerView.LayoutManager layoutManager;
     ArrayList<String> listOfWords = new ArrayList<>();
 
     private static Context appContext;
@@ -85,6 +85,7 @@ public class inGame extends AppCompatActivity {
         // use a linear layout manager
         LinearLayoutManager layoutManager= new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
         appContext = getApplicationContext();
 
 
@@ -258,7 +259,7 @@ public class inGame extends AppCompatActivity {
                 public void run() {
                     // "imageURLs" will be null if the user is not connected to Wi-Fi.
                     // The null check prevents app from crashing.
-                    if (imageURLs != null) {
+                    if (imageURLs != null || imageURLs.size() != 0) {
                         if (i == imageURLs.size())
                             i = 0;
                         setImage st = new setImage();

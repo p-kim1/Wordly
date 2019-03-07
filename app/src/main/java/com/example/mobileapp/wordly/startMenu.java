@@ -135,18 +135,11 @@ public class startMenu extends AppCompatActivity {
     {
         super.onResume();
         prefs.edit().putInt("gamesPlayed", gamesPlayed).apply();
-        prefs.edit().putInt("hintsUsed", hintsUsed).commit();
+        prefs.edit().putInt("hintsUsed", hintsUsed).apply();
         TextView tvNumGames = (TextView) findViewById(R.id.startMenu_TextView_games_played);
         TextView tvNumHints = (TextView) findViewById(R.id.startMenu_TextView_hints_used);
         tvNumGames.setText("Games played: " + gamesPlayed);
         tvNumHints.setText("Hints used: " + hintsUsed);
     }
-
-    /*
-    public void playGame(View v){
-        Intent startGame = new Intent(startMenu.this, inGame.class);
-        startActivity(startGame);
-    }
-    */
 
 }
