@@ -53,6 +53,7 @@ class WordGraph extends Graph<String> {
         }
     }
 
+    // Constructor to generate a graph file from a dictionary.
     public WordGraph(File file) {
         try {
             BufferedReader reader = new BufferedReader(new FileReader(file.toString()));
@@ -87,12 +88,8 @@ class WordGraph extends Graph<String> {
             reader.close();
 
         } catch (FileNotFoundException fileNotFoundException) {
-            // TODO: do something
         } catch (IOException ioException) {
-            // TODO: do something
         }
-
-        prune();
     }
 
     private int numberOfDifferences(String aWord, String bWord) {

@@ -218,18 +218,4 @@ public class Graph<T> {
         }
         return stringBuilder.toString();
     }
-
-    // Removes vertices with no neighbors.
-    protected void prune() {
-        int i = 0;
-        while (i < vertices.size()) {
-            GraphNode<T> vertex = vertices.get(i);
-            if (vertex.getNeighbors().size() == 0) {
-                vertices.remove(vertex);
-                i--;
-            }
-            i++;
-        }
-    }
-
 }
