@@ -201,6 +201,20 @@ public class inGame extends AppCompatActivity {
 
     public void loseScreen()
     {
+        ImageView leftArrow = (ImageView) findViewById(R.id.inGame_ImageView_left_arrow);
+        ImageView rightArrow = (ImageView) findViewById(R.id.inGame_ImageView_right_arrow);
+        TextView scroll = (TextView) findViewById(R.id.inGame_TextView_scroll);
+        leftArrow.setVisibility(View.VISIBLE);
+        rightArrow.setVisibility(View.VISIBLE);
+        scroll.setVisibility(View.VISIBLE);
+        while(listOfWords.size() != wordGame.getPathSize()-2)
+        {
+            String nextWord = wordGame.getNextWord();
+            listOfWords.add(nextWord);
+            wordGame.checkGuess(nextWord);
+            RecyclerView recyclerView = findViewById(R.id.my_recycler_view);
+            recyclerView.scrollToPosition(mAdapter.getItemCount() - 1);
+        }
         startMenu.loses += 1;
         Button submitButton = (Button) findViewById(R.id.inGame_Button_submit);
         submitButton.setEnabled(false);
