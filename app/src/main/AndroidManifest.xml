@@ -17,7 +17,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".WelcomeScreen"
-            android:label="Chit Chat">
+            android:label="Chit Chat"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".startMenu"
