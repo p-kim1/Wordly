@@ -174,10 +174,16 @@ public class inGame extends AppCompatActivity {
         hideKeyboard(this);
         EditText etGuess = (EditText) findViewById(R.id.inGame_EditText_userGuess);
         ImageView iv = (ImageView) findViewById(R.id.inGame_ImageView_hint);
+        // "Loading image..." textview should be disabled if it was not already.
+        // This issue occurs when user is not connected to Wi-Fi.
+        TextView loadingText = findViewById(R.id.inGame_TextView_loading);
         Toast toast = Toast.makeText(this, "You Win", Toast.LENGTH_SHORT);
         toast.show();
         Button submitButton = (Button) findViewById(R.id.inGame_Button_submit);
         Button hintButton = (Button) findViewById(R.id.inGame_Button_hint);
+        // Disable loadingText.
+        loadingText.clearAnimation();
+        loadingText.setVisibility(View.INVISIBLE);
         etGuess.setVisibility(View.GONE);
         submitButton.setVisibility(View.GONE);
         hintButton.setVisibility(View.GONE);
@@ -250,11 +256,15 @@ public class inGame extends AppCompatActivity {
                 int i = 0;
                 @Override
                 public void run() {
-                    if(i == imageURLs.size())
-                        i = 0;
-                    setImage st = new setImage();
-                    st.execute(imageURLs.get(i));
-                    i++;
+                    // "imageURLs" will be null if the user is not connected to Wi-Fi.
+                    // The null check prevents app from crashing.
+                    if (imageURLs != null) {
+                        if (i == imageURLs.size())
+                            i = 0;
+                        setImage st = new setImage();
+                        st.execute(imageURLs.get(i));
+                        i++;
+                    }
                 }
             };
             timer = new Timer();
