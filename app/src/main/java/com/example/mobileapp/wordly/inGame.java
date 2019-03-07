@@ -128,9 +128,6 @@ public class inGame extends AppCompatActivity {
                 scroll.setVisibility(View.VISIBLE);
             }
 
-            Toast toast = Toast.makeText(this, "Success", Toast.LENGTH_SHORT);
-            toast.show();
-
             iv.clearAnimation();
             timer.cancel();
             timer.purge();
@@ -141,7 +138,7 @@ public class inGame extends AppCompatActivity {
             else {
                 hideKeyboard(this);
                 getHintImage(wordGame.getNextWord());
-                toast = Toast.makeText(this, "Nice Guess", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(this, "Nice Guess", Toast.LENGTH_SHORT);
                 toast.show();
             }
         }
